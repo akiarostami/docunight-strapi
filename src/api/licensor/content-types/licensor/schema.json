@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "licensors",
+  "info": {
+    "singularName": "licensor",
+    "pluralName": "licensors",
+    "displayName": "Licensor",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "contract_sent": {
+      "type": "datetime"
+    },
+    "contract_signed": {
+      "type": "datetime"
+    },
+    "contract_id": {
+      "type": "string"
+    },
+    "vimeo": {
+      "type": "string"
+    },
+    "films": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::film.film",
+      "mappedBy": "licensor"
+    }
+  }
+}

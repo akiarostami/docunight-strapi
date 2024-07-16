@@ -512,6 +512,12 @@ export interface PluginContentReleasesRelease extends Schema.CollectionType {
   attributes: {
     name: Attribute.String & Attribute.Required;
     releasedAt: Attribute.DateTime;
+    scheduledAt: Attribute.DateTime;
+    timezone: Attribute.String;
+    status: Attribute.Enumeration<
+      ['ready', 'blocked', 'failed', 'done', 'empty']
+    > &
+      Attribute.Required;
     actions: Attribute.Relation<
       'plugin::content-releases.release',
       'oneToMany',
@@ -566,6 +572,7 @@ export interface PluginContentReleasesReleaseAction
       'manyToOne',
       'plugin::content-releases.release'
     >;
+    isEntryValid: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -576,6 +583,53 @@ export interface PluginContentReleasesReleaseAction
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'plugin::content-releases.release-action',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
       'oneToOne',
       'admin::user'
     > &
@@ -734,53 +788,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiAboutAbout extends Schema.SingleType {
   collectionName: 'abouts';
   info: {
@@ -832,7 +839,7 @@ export interface ApiArticleArticle extends Schema.CollectionType {
         maxLength: 80;
       }>;
     slug: Attribute.UID<'api::article.article', 'title'>;
-    cover: Attribute.Media;
+    cover: Attribute.Media<'images' | 'files' | 'videos'>;
     author: Attribute.Relation<
       'api::article.article',
       'manyToOne',
@@ -877,7 +884,7 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    avatar: Attribute.Media;
+    avatar: Attribute.Media<'images' | 'files' | 'videos'>;
     email: Attribute.String;
     articles: Attribute.Relation<
       'api::author.author',
@@ -938,6 +945,161 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
 }
 
+export interface ApiDirectorDirector extends Schema.CollectionType {
+  collectionName: 'directors';
+  info: {
+    singularName: 'director';
+    pluralName: 'directors';
+    displayName: 'Director';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    first_name: Attribute.String;
+    last_name: Attribute.String;
+    slug: Attribute.UID<'api::director.director', 'name'>;
+    company: Attribute.String;
+    email: Attribute.Email;
+    phone: Attribute.String;
+    vimeo: Attribute.String;
+    bio: Attribute.Text;
+    films: Attribute.Relation<
+      'api::director.director',
+      'manyToMany',
+      'api::film.film'
+    >;
+    photo: Attribute.Media<'images'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::director.director',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::director.director',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiExtraExtra extends Schema.CollectionType {
+  collectionName: 'extras';
+  info: {
+    singularName: 'extra';
+    pluralName: 'extras';
+    displayName: 'Extra';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    slug: Attribute.UID<'api::extra.extra', 'title'>;
+    type: Attribute.Enumeration<['talk', 'trailer']>;
+    online: Attribute.DateTime;
+    offline: Attribute.DateTime;
+    description: Attribute.Text;
+    films: Attribute.Relation<
+      'api::extra.extra',
+      'manyToMany',
+      'api::film.film'
+    >;
+    cover: Attribute.Media<'images'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::extra.extra',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::extra.extra',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiFilmFilm extends Schema.CollectionType {
+  collectionName: 'films';
+  info: {
+    singularName: 'film';
+    pluralName: 'films';
+    displayName: 'Film';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    original: Attribute.String;
+    slug: Attribute.UID<'api::film.film', 'title'>;
+    logline: Attribute.Text;
+    year: Attribute.Integer;
+    country: Attribute.JSON &
+      Attribute.CustomField<
+        'plugin::multi-select.multi-select',
+        ['Iran', 'US', 'France']
+      >;
+    online: Attribute.DateTime;
+    offline: Attribute.DateTime;
+    synopsis: Attribute.Text;
+    social: Attribute.Text;
+    short: Attribute.Text;
+    vimeo: Attribute.String;
+    extras: Attribute.Relation<
+      'api::film.film',
+      'manyToMany',
+      'api::extra.extra'
+    >;
+    directors: Attribute.Relation<
+      'api::film.film',
+      'manyToMany',
+      'api::director.director'
+    >;
+    licensor: Attribute.Relation<
+      'api::film.film',
+      'manyToOne',
+      'api::licensor.licensor'
+    >;
+    stage: Attribute.Enumeration<
+      [
+        'suggested',
+        'submitted',
+        'review',
+        'accepted',
+        'queued',
+        'live',
+        'closed'
+      ]
+    >;
+    cover: Attribute.Media<'images'>;
+    poster: Attribute.Media<'images'>;
+    square: Attribute.Media<'images'>;
+    banner: Attribute.Media<'images'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::film.film', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::film.film', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface ApiGlobalGlobal extends Schema.SingleType {
   collectionName: 'globals';
   info: {
@@ -951,7 +1113,7 @@ export interface ApiGlobalGlobal extends Schema.SingleType {
   };
   attributes: {
     siteName: Attribute.String & Attribute.Required;
-    favicon: Attribute.Media;
+    favicon: Attribute.Media<'images' | 'files' | 'videos'>;
     siteDescription: Attribute.Text & Attribute.Required;
     defaultSeo: Attribute.Component<'shared.seo'>;
     createdAt: Attribute.DateTime;
@@ -964,6 +1126,48 @@ export interface ApiGlobalGlobal extends Schema.SingleType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::global.global',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiLicensorLicensor extends Schema.CollectionType {
+  collectionName: 'licensors';
+  info: {
+    singularName: 'licensor';
+    pluralName: 'licensors';
+    displayName: 'Licensor';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    name: Attribute.String;
+    email: Attribute.Email;
+    phone: Attribute.String;
+    company: Attribute.String;
+    contract_sent: Attribute.DateTime;
+    contract_signed: Attribute.DateTime;
+    contract_id: Attribute.String;
+    vimeo: Attribute.String;
+    films: Attribute.Relation<
+      'api::licensor.licensor',
+      'oneToMany',
+      'api::film.film'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::licensor.licensor',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::licensor.licensor',
       'oneToOne',
       'admin::user'
     > &
@@ -985,15 +1189,19 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::about.about': ApiAboutAbout;
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
+      'api::director.director': ApiDirectorDirector;
+      'api::extra.extra': ApiExtraExtra;
+      'api::film.film': ApiFilmFilm;
       'api::global.global': ApiGlobalGlobal;
+      'api::licensor.licensor': ApiLicensorLicensor;
     }
   }
 }

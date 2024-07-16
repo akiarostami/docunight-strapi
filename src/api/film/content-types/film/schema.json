@@ -1,0 +1,117 @@
+{
+  "kind": "collectionType",
+  "collectionName": "films",
+  "info": {
+    "singularName": "film",
+    "pluralName": "films",
+    "displayName": "Film",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "original": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "logline": {
+      "type": "text"
+    },
+    "year": {
+      "type": "integer"
+    },
+    "country": {
+      "type": "customField",
+      "options": [
+        "Iran",
+        "US",
+        "France"
+      ],
+      "customField": "plugin::multi-select.multi-select"
+    },
+    "online": {
+      "type": "datetime"
+    },
+    "offline": {
+      "type": "datetime"
+    },
+    "synopsis": {
+      "type": "text"
+    },
+    "social": {
+      "type": "text"
+    },
+    "short": {
+      "type": "text"
+    },
+    "vimeo": {
+      "type": "string"
+    },
+    "extras": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::extra.extra",
+      "mappedBy": "films"
+    },
+    "directors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::director.director",
+      "inversedBy": "films"
+    },
+    "licensor": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::licensor.licensor",
+      "inversedBy": "films"
+    },
+    "stage": {
+      "type": "enumeration",
+      "enum": [
+        "suggested",
+        "submitted",
+        "review",
+        "accepted",
+        "queued",
+        "live",
+        "closed"
+      ]
+    },
+    "cover": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "poster": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "square": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "banner": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}
