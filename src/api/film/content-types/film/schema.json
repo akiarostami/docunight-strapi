@@ -112,6 +112,12 @@
       ],
       "type": "media",
       "multiple": false
+    },
+    "stats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::stat.stat",
+      "mappedBy": "film"
     }
   }
 }

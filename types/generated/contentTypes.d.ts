@@ -1090,6 +1090,7 @@ export interface ApiFilmFilm extends Schema.CollectionType {
     poster: Attribute.Media<'images'>;
     square: Attribute.Media<'images'>;
     banner: Attribute.Media<'images'>;
+    stats: Attribute.Relation<'api::film.film', 'oneToMany', 'api::stat.stat'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1175,6 +1176,101 @@ export interface ApiLicensorLicensor extends Schema.CollectionType {
   };
 }
 
+export interface ApiStatStat extends Schema.CollectionType {
+  collectionName: 'stats';
+  info: {
+    singularName: 'stat';
+    pluralName: 'stats';
+    displayName: 'Stats';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    film: Attribute.Relation<'api::stat.stat', 'manyToOne', 'api::film.film'>;
+    year: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 2020;
+          max: 2030;
+        },
+        number
+      >;
+    plays: Attribute.BigInteger;
+    finishes: Attribute.BigInteger;
+    mins: Attribute.BigInteger;
+    viewers: Attribute.BigInteger;
+    charges: Attribute.BigInteger;
+    p01: Attribute.BigInteger;
+    f01: Attribute.BigInteger;
+    m01: Attribute.BigInteger;
+    v01: Attribute.BigInteger;
+    c01: Attribute.BigInteger;
+    p02: Attribute.BigInteger;
+    f02: Attribute.BigInteger;
+    m02: Attribute.BigInteger;
+    v02: Attribute.BigInteger;
+    c02: Attribute.BigInteger;
+    p03: Attribute.BigInteger;
+    f03: Attribute.BigInteger;
+    m03: Attribute.BigInteger;
+    v03: Attribute.BigInteger;
+    c03: Attribute.BigInteger;
+    p04: Attribute.BigInteger;
+    f04: Attribute.BigInteger;
+    m04: Attribute.BigInteger;
+    v04: Attribute.BigInteger;
+    c04: Attribute.BigInteger;
+    p05: Attribute.BigInteger;
+    f05: Attribute.BigInteger;
+    m05: Attribute.BigInteger;
+    v05: Attribute.BigInteger;
+    c05: Attribute.BigInteger;
+    p06: Attribute.BigInteger;
+    f06: Attribute.BigInteger;
+    m06: Attribute.BigInteger;
+    v06: Attribute.BigInteger;
+    c06: Attribute.BigInteger;
+    p07: Attribute.BigInteger;
+    f07: Attribute.BigInteger;
+    m07: Attribute.BigInteger;
+    v07: Attribute.BigInteger;
+    c07: Attribute.BigInteger;
+    p08: Attribute.BigInteger;
+    f08: Attribute.BigInteger;
+    m08: Attribute.BigInteger;
+    v08: Attribute.BigInteger;
+    c08: Attribute.BigInteger;
+    p09: Attribute.BigInteger;
+    f09: Attribute.BigInteger;
+    m09: Attribute.BigInteger;
+    v09: Attribute.BigInteger;
+    c09: Attribute.BigInteger;
+    p10: Attribute.BigInteger;
+    f10: Attribute.BigInteger;
+    m10: Attribute.BigInteger;
+    v10: Attribute.BigInteger;
+    c10: Attribute.BigInteger;
+    p11: Attribute.BigInteger;
+    f11: Attribute.BigInteger;
+    m11: Attribute.BigInteger;
+    v11: Attribute.BigInteger;
+    c11: Attribute.BigInteger;
+    p12: Attribute.BigInteger;
+    f12: Attribute.BigInteger;
+    m12: Attribute.BigInteger;
+    v12: Attribute.BigInteger;
+    c12: Attribute.BigInteger;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::stat.stat', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::stat.stat', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1202,6 +1298,7 @@ declare module '@strapi/types' {
       'api::film.film': ApiFilmFilm;
       'api::global.global': ApiGlobalGlobal;
       'api::licensor.licensor': ApiLicensorLicensor;
+      'api::stat.stat': ApiStatStat;
     }
   }
 }

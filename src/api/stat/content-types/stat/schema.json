@@ -1,0 +1,222 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stats",
+  "info": {
+    "singularName": "stat",
+    "pluralName": "stats",
+    "displayName": "Stats",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "film": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::film.film",
+      "inversedBy": "stats"
+    },
+    "year": {
+      "type": "integer",
+      "min": 2020,
+      "max": 2030
+    },
+    "plays": {
+      "type": "biginteger"
+    },
+    "finishes": {
+      "type": "biginteger"
+    },
+    "mins": {
+      "type": "biginteger"
+    },
+    "viewers": {
+      "type": "biginteger"
+    },
+    "charges": {
+      "type": "biginteger"
+    },
+    "p01": {
+      "type": "biginteger"
+    },
+    "f01": {
+      "type": "biginteger"
+    },
+    "m01": {
+      "type": "biginteger"
+    },
+    "v01": {
+      "type": "biginteger"
+    },
+    "c01": {
+      "type": "biginteger"
+    },
+    "p02": {
+      "type": "biginteger"
+    },
+    "f02": {
+      "type": "biginteger"
+    },
+    "m02": {
+      "type": "biginteger"
+    },
+    "v02": {
+      "type": "biginteger"
+    },
+    "c02": {
+      "type": "biginteger"
+    },
+    "p03": {
+      "type": "biginteger"
+    },
+    "f03": {
+      "type": "biginteger"
+    },
+    "m03": {
+      "type": "biginteger"
+    },
+    "v03": {
+      "type": "biginteger"
+    },
+    "c03": {
+      "type": "biginteger"
+    },
+    "p04": {
+      "type": "biginteger"
+    },
+    "f04": {
+      "type": "biginteger"
+    },
+    "m04": {
+      "type": "biginteger"
+    },
+    "v04": {
+      "type": "biginteger"
+    },
+    "c04": {
+      "type": "biginteger"
+    },
+    "p05": {
+      "type": "biginteger"
+    },
+    "f05": {
+      "type": "biginteger"
+    },
+    "m05": {
+      "type": "biginteger"
+    },
+    "v05": {
+      "type": "biginteger"
+    },
+    "c05": {
+      "type": "biginteger"
+    },
+    "p06": {
+      "type": "biginteger"
+    },
+    "f06": {
+      "type": "biginteger"
+    },
+    "m06": {
+      "type": "biginteger"
+    },
+    "v06": {
+      "type": "biginteger"
+    },
+    "c06": {
+      "type": "biginteger"
+    },
+    "p07": {
+      "type": "biginteger"
+    },
+    "f07": {
+      "type": "biginteger"
+    },
+    "m07": {
+      "type": "biginteger"
+    },
+    "v07": {
+      "type": "biginteger"
+    },
+    "c07": {
+      "type": "biginteger"
+    },
+    "p08": {
+      "type": "biginteger"
+    },
+    "f08": {
+      "type": "biginteger"
+    },
+    "m08": {
+      "type": "biginteger"
+    },
+    "v08": {
+      "type": "biginteger"
+    },
+    "c08": {
+      "type": "biginteger"
+    },
+    "p09": {
+      "type": "biginteger"
+    },
+    "f09": {
+      "type": "biginteger"
+    },
+    "m09": {
+      "type": "biginteger"
+    },
+    "v09": {
+      "type": "biginteger"
+    },
+    "c09": {
+      "type": "biginteger"
+    },
+    "p10": {
+      "type": "biginteger"
+    },
+    "f10": {
+      "type": "biginteger"
+    },
+    "m10": {
+      "type": "biginteger"
+    },
+    "v10": {
+      "type": "biginteger"
+    },
+    "c10": {
+      "type": "biginteger"
+    },
+    "p11": {
+      "type": "biginteger"
+    },
+    "f11": {
+      "type": "biginteger"
+    },
+    "m11": {
+      "type": "biginteger"
+    },
+    "v11": {
+      "type": "biginteger"
+    },
+    "c11": {
+      "type": "biginteger"
+    },
+    "p12": {
+      "type": "biginteger"
+    },
+    "f12": {
+      "type": "biginteger"
+    },
+    "m12": {
+      "type": "biginteger"
+    },
+    "v12": {
+      "type": "biginteger"
+    },
+    "c12": {
+      "type": "biginteger"
+    }
+  }
+}
